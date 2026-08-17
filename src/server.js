@@ -5,7 +5,7 @@ import {connectMongoDB} from "./db/connectMongoDB.js";
 import {logger} from "./middleware/logger.js";
 import {errorHandler} from "./middleware/errorHandler.js";
 import {notFoundHandler} from "./middleware/notFoundHandler.js";
-import notesRouter from "./routes/notesRouter.js"
+import notesRouter from "./routes/notesRoutes.js"
 
 const PORT = Number(process.env.PORT) || 3000;
 const app = express();
