@@ -7,7 +7,7 @@ import {errorHandler} from "./middleware/errorHandler.js";
 import {notFoundHandler} from "./middleware/notFoundHandler.js";
 import notesRouter from "./router/notesRouter.js"
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 
 // global Middleware
