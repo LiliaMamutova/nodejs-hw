@@ -5,7 +5,7 @@ import {connectMongoDB} from "./db/connectMongoDB.js";
 import {logger} from "./middleware/logger.js";
 import {errorHandler} from "./middleware/errorHandler.js";
 import {notFoundHandler} from "./middleware/notFoundHandler.js";
-import notesRouter from "./routes/notesRoutes.js"
+import notesRoutes from "./routes/notesRoutes.js"
 
 const PORT = Number(process.env.PORT) || 3000;
 const app = express();
@@ -15,7 +15,7 @@ app.use(logger);
 app.use(express.json());
 app.use(cors());
 
-app.use(notesRouter);
+app.use(notesRoutes);
 
 // 404 and error handler
 app.use(notFoundHandler)
