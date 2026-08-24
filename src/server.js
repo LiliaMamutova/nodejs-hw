@@ -6,6 +6,7 @@ import {logger} from "./middleware/logger.js";
 import {errorHandler} from "./middleware/errorHandler.js";
 import {notFoundHandler} from "./middleware/notFoundHandler.js";
 import notesRoutes from "./routes/notesRoutes.js"
+import {errors} from "celebrate";
 
 const PORT = Number(process.env.PORT) || 3000;
 const app = express();
@@ -19,6 +20,8 @@ app.use(notesRoutes);
 
 // 404 and error handler
 app.use(notFoundHandler)
+// error handler from celebrate (validation)
+app.use(errors());
 app.use(errorHandler);
 
 // connection to MongoDB
