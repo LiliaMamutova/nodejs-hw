@@ -27,7 +27,8 @@ noteRouter.post("/notes",
   createNote);
 
 noteRouter.delete("/notes/:noteId",
-  celebrate(noteIdSchema),
+  celebrate(noteIdSchema,
+{ abortEarly: false }),
   deleteNote);
 
 noteRouter.patch("/notes/:noteId",
