@@ -4,13 +4,22 @@ import {isValidObjectId} from "mongoose";
 
 // custom validator for ObjectId
 const objectIdValidator = (value, helpers) => {
-  return !isValidObjectId(value) ? helpers.message("Invalid id format") : value;
+  return isValidObjectId(value) ? value : helpers.message("Invalid id format");
 };
 
 
+export const getAllNotesSchema = {
+  [Segments.QUERY]: Joi.object({
+    page: Joi.number().integer().min(1).default(1),
+    perPage: Joi.number().integer().min(5).max(20).default(10),
+    tag: Joi.string().valid(...TAGS).insensitive().optional(),
+    search: Joi.string().trim().allow("").insensitive(),
+  }),
+};
+
 export const createNoteSchema = {
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).required(),
+    title: Joi.string().min(1).trim().required(),
     content: Joi.string().allow("").optional(),
     tag: Joi.string().valid(...TAGS).optional(),
   }),
@@ -27,22 +36,8 @@ export const updateNoteSchema = {
     noteId: Joi.string().custom(objectIdValidator).required(),
   }),
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).required(),
-    content: Joi.string().allow("").optional(),
+    title: Joi.string().min(1).trim().optional(),
+    content: Joi.string().trim().allow("").optional(),
     tag: Joi.string().valid(...TAGS).optional(),
   }).min(1),
 };
-
-
-// Для маршруту PATCH /notes/:noteId потрібно валідувати параметр запиту noteId
-// (валідуємо як рядок із кастомною валідацію через isValidObjectId із mongoose)
-// та тіло запиту як об’єкт із наступними властивостями:
-//
-//   title - рядок, мінімум 1 символ, необов’язкове поле
-// content - рядок, може бути порожнім рядком, необов’язкове поле
-// tag - одне із значень із файла src/contacts/tags.js, необов’язкове поле
-//
-//
-// Додайте перевірку, що хоча б одне з полів `title`, `content` або `tag` буде присутнім, тобто тіло запиту не має бути порожнім.
-// Для цього створіть схему валідації updateNoteSchema (не змінюйте назву) у файлі src/validations/notesValidation.js та використайте noteIdSchema.
-
