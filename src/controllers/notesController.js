@@ -5,7 +5,7 @@ export const getAllNotes = async (req, res) => {
   const {page = 1, perPage = 10, tag, search} = req.query;
   const skip = (page - 1) * perPage;
 
-  const notesQuery = Note.find({userIs: req.user._id});
+  const notesQuery = Note.find({userId: req.user._id});
 
   // Будуємо фільтр
   if (tag) {
@@ -53,7 +53,7 @@ export const getNoteById = async (req, res) => {
 
 
 export const createNote = async (req, res) => {
-  const note = await Note.create({...req.query, userId: req.user._id});
+  const note = await Note.create({...req.body, userId: req.user._id});
   res.status(201).json(note);
 };
 

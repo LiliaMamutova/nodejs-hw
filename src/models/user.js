@@ -1,7 +1,5 @@
 import {model, Schema} from "mongoose";
 
-export const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
 const userSchema = new Schema({
   username: {
     type: String,
@@ -11,7 +9,6 @@ const userSchema = new Schema({
   email: {
     type: String,
     unique: true,
-    match: emailRegex,
     required: true,
     trim: true,
   },

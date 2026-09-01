@@ -28,6 +28,5 @@ const sessionSchema = new Schema({
     versionKey: false,
   });
 
-const Session = model("Session", sessionSchema);
+export const Session = model("Session", sessionSchema);
 
-export default Session;

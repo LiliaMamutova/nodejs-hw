@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import Session from "../models/session.js";
+import {Session} from "../models/session.js";
 import User from "../models/user.js";
 
 export const authenticate = async (req, res, next) => {
@@ -22,7 +22,7 @@ export const authenticate = async (req, res, next) => {
   }
 
   // 4. Перевіряємо термін дії access токена
-  const isAccessTokenExpired = session.ccessTokenValidUntil < new Date();
+  const isAccessTokenExpired = session.accessTokenValidUntil < new Date();
 
   if (isAccessTokenExpired) {
     throw createHttpError(401, "Access token expired");

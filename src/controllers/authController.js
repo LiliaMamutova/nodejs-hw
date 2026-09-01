@@ -1,7 +1,7 @@
 import User from "../models/user.js";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
-import Session from "../models/session.js";
+import {Session} from "../models/session.js";
 import {createSession, setSessionCookies} from "../services/auth.js";
 
 
@@ -10,7 +10,7 @@ export const registerUser = async (req, res) => {
   const existingUser = await User.findOne({ email });
 
   if(existingUser) {
-    throw createHttpError(409, `Email ${email} in use`);
+    throw createHttpError(400, `Email ${email} in use`);
   }
 
   // hashing password
@@ -74,7 +74,7 @@ export const refreshUserSession = async (req, res) => {
   }
 
   // 3. Якщо сесія існує, перевіряємо валідність рефреш токена
-  const isSessionTokenExpired = session.efreshTokenValidUntil < new Date();
+  const isSessionTokenExpired = session.refreshTokenValidUntil < new Date();
 
   // Якщо термін дії рефреш токена вийшов,
   // видаляємо сесію і повертаємо помилку
